@@ -42,10 +42,13 @@ public class Main {
                 for (int i = 2; i < parts.length; i++) {
                     rest.add(parts[i]);
                 }
+                System.out.println("Items added to the list:");
+                System.out.println(rest);
             } else {
                 System.out.println("Wrong command.");
                 continue;
             }
+
 
             int taskIDCount = taskID += 1;
             taskList.add(new Task(rest, true, taskIDCount));
