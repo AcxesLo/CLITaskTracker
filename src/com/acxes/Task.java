@@ -1,13 +1,17 @@
 package com.acxes;
 
+import java.util.List;
+
 public class Task {
     private static int taskCount;
     private int taskID;
-    private String name;
+    private List<String> taskName;
     private Boolean inProgress;
 
-    public Task(String name, Boolean inProgress, int taskID) {
-        this.name = name;
+    public Task(List<String> taskName,
+                Boolean inProgress,
+                int taskID) {
+        this.taskName = taskName;
         this.inProgress = inProgress;
         this.taskID = taskID;
     }
@@ -19,7 +23,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + name + '\'' +
+                "name='" + taskName + '\'' +
                 ", inProgress=" + inProgress + '\'' +
                 ", taskID=" + taskID +
                 '}';
@@ -33,7 +37,7 @@ public class Task {
         return taskID;
     }
 
-    public String getName() {
-        return name;
+    public List<String> getTaskName() {
+        return taskName;
     }
 }
