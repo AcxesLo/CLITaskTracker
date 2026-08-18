@@ -13,6 +13,22 @@ public class Main {
     private static String deleteTask;
     private static int taskID = 0;
 
+    //TODO
+    /*
+
+     */
+
+    // TEST-QUOTES
+    // task-cli add "Buy groceries"
+    // task-cli update 1 "Buy groceries and cook dinner"
+    // task-cli delete 1
+    // task-cli mark-in-progress 1
+    // task-cli mark-done 1
+    // task-cli list
+    // task-cli list done
+    // task-cli list todo
+    // task-cli list in-progress
+
     static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -23,7 +39,7 @@ public class Main {
             if (line.isEmpty()) {
                 continue;
             }
-            if (line.equalsIgnoreCase("ls")) {
+            if (line.equalsIgnoreCase("task-cli list")) {
                 for (Task taskLists : taskList) {
                     System.out.println(taskLists);
                 }
@@ -39,11 +55,14 @@ public class Main {
             parts = line.split("\\s+");
 
             if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("add")) {
-                for (int i = 2; i < parts.length; i++) {
-                    rest.add(parts[i]);
-                }
-                System.out.println("Items added to the list:");
-                System.out.println(rest);
+                String taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
+                taskText = taskText.replaceAll("^\"|\"$", "");
+
+                System.out.println("Items added to the list:\n"
+                        + "<"
+                        + taskText
+                        + ">");
+
             } else {
                 System.out.println("Wrong command.");
                 continue;
