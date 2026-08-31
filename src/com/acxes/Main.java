@@ -1,11 +1,6 @@
 package com.acxes;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
 public class Main {
@@ -54,7 +49,7 @@ public class Main {
                 taskTextList.add(taskText);
                 Task.incrementTask();
                 int taskIDCount = taskID += 1;
-                taskList.add(new Task(taskTextList, true, taskIDCount));
+                taskList.add(new Task(taskTextList, false, taskIDCount));
 
                 System.out.println("taskList size: " + taskList.size());
 
@@ -95,7 +90,22 @@ public class Main {
                         System.out.println("Task with the ID " + targetID + " wasn't found.");
                     }
                 }
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-in-progress")) {
+                int targetID = Integer.parseInt(parts[2]);
+                boolean foundTargetID = false;
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getTaskID() == targetID) {
 
+                        foundTargetID = true;
+                        taskList.get(i).setInProgress(true);
+
+                        System.out.println("Task with TaskID " + targetID + " was updated to 'in progress'.");
+                    }
+
+                    if (!foundTargetID) {
+                        System.out.println("Task with the ID " + targetID + " wasn't found.");
+                    }
+                }
             } else if (line.equalsIgnoreCase("task-cli list")) {
                 System.out.println("TaskCount: " + Task.taskCount);
                 for (Task taskLists : taskList) {

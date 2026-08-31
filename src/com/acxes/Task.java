@@ -33,6 +33,10 @@ public class Task {
                 '}';
     }
 
+    public void setInProgress(boolean isDone) {
+        this.inProgress = isDone;
+    }
+
     public void setTaskName(List<String> taskName) {
         this.taskName = taskName;
     }
