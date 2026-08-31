@@ -59,9 +59,8 @@ public class Main {
                 System.out.println("taskList size: " + taskList.size());
 
             } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("update")) {
-                // here i wanna update the previously added task, and it should be selected by the taskID from index 2
                 int targetID = Integer.parseInt(parts[2]);
-                boolean found = false;
+                boolean foundTargetID = false;
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
                         taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
@@ -73,11 +72,28 @@ public class Main {
                                 + "<"
                                 + taskText
                                 + ">");
-                        found = true;
+                        foundTargetID = true;
                     }
                 }
-                if (!found) {
+                if (!foundTargetID) {
                     System.out.println("Task with the ID " + targetID + " wasn't found.");
+                }
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("delete")) {
+                int targetID = Integer.parseInt(parts[2]);
+                boolean foundTargetID = false;
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getTaskID() == targetID) {
+                        taskList.remove(taskList.get(i));
+
+                        foundTargetID = true;
+                        Task.decrementTask();
+
+                        System.out.println("Task removed with TaskID " + targetID + " from the list.");
+                    }
+
+                    if (!foundTargetID) {
+                        System.out.println("Task with the ID " + targetID + " wasn't found.");
+                    }
                 }
 
             } else if (line.equalsIgnoreCase("task-cli list")) {
@@ -99,5 +115,6 @@ public class Main {
         }
     }
 }
+
 
 

@@ -20,6 +20,10 @@ public class Task {
         taskCount++;
     }
 
+    public static void decrementTask() {
+        taskCount--;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
