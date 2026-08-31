@@ -1,6 +1,5 @@
 package com.acxes;
 
-import java.sql.*;
 import java.util.*;
 
 public class Main {
@@ -8,8 +7,8 @@ public class Main {
     private static String[] parts;
     private static String taskText;
     private static List<Task> taskList = new ArrayList<>();
-    private static List<String> taskTextList = new ArrayList<>();
-    private static int taskID = 0;
+    private static int taskIDCount;
+    private static boolean foundTarget = false;
 
     //TODO
     // adding function kinda done, needs to be added into the class --done
@@ -46,70 +45,87 @@ public class Main {
                         + taskText
                         + ">");
 
-                taskTextList.add(taskText);
                 Task.incrementTask();
-                int taskIDCount = taskID += 1;
-                taskList.add(new Task(taskTextList, false, taskIDCount));
+                taskIDCount++;
+                taskList.add(new Task(taskText, false, taskIDCount));
 
                 System.out.println("taskList size: " + taskList.size());
 
             } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("update")) {
                 int targetID = Integer.parseInt(parts[2]);
-                boolean foundTargetID = false;
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
                         taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
                         taskText = taskText.replaceAll("^\"|\"$", "");
 
-                        taskList.get(i).setTaskName(Collections.singletonList(taskText));
+                        taskList.get(i).setTaskList(Collections.singletonList(taskText));
+                        foundTarget = true;
 
                         System.out.println("Items updated on taskID " + targetID + " to the list:\n"
                                 + "<"
                                 + taskText
                                 + ">");
-                        foundTargetID = true;
                     }
                 }
-                if (!foundTargetID) {
+                if (!foundTarget) {
                     System.out.println("Task with the ID " + targetID + " wasn't found.");
                 }
+
             } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("delete")) {
                 int targetID = Integer.parseInt(parts[2]);
-                boolean foundTargetID = false;
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
                         taskList.remove(taskList.get(i));
 
-                        foundTargetID = true;
                         Task.decrementTask();
 
                         System.out.println("Task removed with TaskID " + targetID + " from the list.");
-                    }
-
-                    if (!foundTargetID) {
-                        System.out.println("Task with the ID " + targetID + " wasn't found.");
+                    } else {
+                        System.out.println("Task with the ID " + targetID + " does not exist.(delete)");
                     }
                 }
+
             } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-in-progress")) {
                 int targetID = Integer.parseInt(parts[2]);
-                boolean foundTargetID = false;
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getTaskID() == targetID) {
+                        taskList.get(i).setInProgress(true);
+                        foundTarget = true;
+                        System.out.println("Task with TaskID" + targetID + " was updated to 'in progress'.");
+                    }
+                }
+                if (!foundTarget) {
+                    System.out.println("Task with the ID " + targetID + " does not exist.(mark-in-progress)");
+                }
+
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("done")) {
+                int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
 
-                        foundTargetID = true;
-                        taskList.get(i).setInProgress(true);
+                        taskList.get(i).setInProgress(false);
+                        foundTarget = true;
 
-                        System.out.println("Task with TaskID " + targetID + " was updated to 'in progress'.");
+                        System.out.println("Task with TaskID " + targetID + " was updated to 'done'.");
                     }
-
-                    if (!foundTargetID) {
+                    if (!foundTarget) {
                         System.out.println("Task with the ID " + targetID + " wasn't found.");
                     }
                 }
+
             } else if (line.equalsIgnoreCase("task-cli list")) {
                 System.out.println("TaskCount: " + Task.taskCount);
                 for (Task taskLists : taskList) {
                     System.out.println(taskLists);
+                }
+
+            } else if (line.equalsIgnoreCase("task-cli list todo")) {
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getInProgress()) {
+                        System.out.println(taskList);
+                    } else {
+                        System.out.println("There are no tasks that are 'in progress'.");
+                    }
                 }
 
             } else if (line.isEmpty()) {

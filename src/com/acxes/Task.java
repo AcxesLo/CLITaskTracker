@@ -1,19 +1,27 @@
 package com.acxes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
     public static int taskCount;
     private int taskID;
-    private List<String> taskName;
+    private String taskName;
+    private List<String> taskList = new ArrayList<>();
     private Boolean inProgress;
 
-    public Task(List<String> taskName,
+    public Task(String taskName,
                 Boolean inProgress,
                 int taskID) {
         this.taskName = taskName;
         this.inProgress = inProgress;
         this.taskID = taskID;
+
+        addTask(this.taskName);
+    }
+
+    public void addTask(String taskName) {
+        this.taskList.add(taskName);
     }
 
     public static void incrementTask() {
@@ -27,7 +35,7 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + taskName + '\'' +
+                "name='" + taskList + '\'' +
                 ", inProgress=" + inProgress + '\'' +
                 ", taskID=" + taskID +
                 '}';
@@ -37,8 +45,12 @@ public class Task {
         this.inProgress = isDone;
     }
 
-    public void setTaskName(List<String> taskName) {
-        this.taskName = taskName;
+    public boolean getInProgress() {
+        return this.inProgress;
+    }
+
+    public void setTaskList(List<String> taskList) {
+        this.taskList = taskList;
     }
 
     public int getTaskID() {
