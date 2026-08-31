@@ -8,13 +8,13 @@ public class Task {
     private int taskID;
     private String taskName;
     private List<String> taskList = new ArrayList<>();
-    private Boolean inProgress;
+    private String taskState;
 
     public Task(String taskName,
-                Boolean inProgress,
+                String taskState,
                 int taskID) {
         this.taskName = taskName;
-        this.inProgress = inProgress;
+        this.taskState = taskState;
         this.taskID = taskID;
 
         addTask(this.taskName);
@@ -36,17 +36,17 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "name='" + taskList + '\'' +
-                ", inProgress=" + inProgress + '\'' +
+                ", taskState=" + taskState + '\'' +
                 ", taskID=" + taskID +
                 '}';
     }
 
-    public void setInProgress(boolean isDone) {
-        this.inProgress = isDone;
+    public void taskState(String state) {
+        this.taskState = state;
     }
 
-    public boolean getInProgress() {
-        return this.inProgress;
+    public String getTaskState() {
+        return this.taskState;
     }
 
     public void setTaskList(List<String> taskList) {

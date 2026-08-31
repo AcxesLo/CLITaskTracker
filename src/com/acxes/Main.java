@@ -47,7 +47,7 @@ public class Main {
 
                 Task.incrementTask();
                 taskIDCount++;
-                taskList.add(new Task(taskText, false, taskIDCount));
+                taskList.add(new Task(taskText, "todo", taskIDCount));
 
                 System.out.println("taskList size: " + taskList.size());
 
@@ -76,20 +76,20 @@ public class Main {
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
                         taskList.remove(taskList.get(i));
-
+                        foundTarget = true;
                         Task.decrementTask();
-
                         System.out.println("Task removed with TaskID " + targetID + " from the list.");
-                    } else {
-                        System.out.println("Task with the ID " + targetID + " does not exist.(delete)");
                     }
+                }
+                if (!foundTarget) {
+                    System.out.println("Task with the ID " + targetID + " does not exist.(delete)");
                 }
 
             } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-in-progress")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
-                        taskList.get(i).setInProgress(true);
+                        taskList.get(i).taskState("in-progress");
                         foundTarget = true;
                         System.out.println("Task with TaskID" + targetID + " was updated to 'in progress'.");
                     }
@@ -102,15 +102,26 @@ public class Main {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
-
-                        taskList.get(i).setInProgress(false);
+                        taskList.get(i).taskState("done");
                         foundTarget = true;
-
                         System.out.println("Task with TaskID " + targetID + " was updated to 'done'.");
                     }
-                    if (!foundTarget) {
-                        System.out.println("Task with the ID " + targetID + " wasn't found.");
+                }
+                if (!foundTarget) {
+                    System.out.println("Task with the ID " + targetID + " wasn't found.");
+                }
+
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("todo")) {
+                int targetID = Integer.parseInt(parts[2]);
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getTaskID() == targetID) {
+                        taskList.get(i).taskState("todo");
+                        foundTarget = true;
+                        System.out.println("Task with TaskID " + targetID + " was updated to 'todo'.");
                     }
+                }
+                if (!foundTarget) {
+                    System.out.println("Task with the ID " + targetID + " wasn't found.");
                 }
 
             } else if (line.equalsIgnoreCase("task-cli list")) {
@@ -120,12 +131,15 @@ public class Main {
                 }
 
             } else if (line.equalsIgnoreCase("task-cli list todo")) {
+                boolean foundTodoTasks = false;
                 for (int i = 0; i < taskList.size(); i++) {
-                    if (taskList.get(i).getInProgress()) {
-                        System.out.println(taskList);
-                    } else {
-                        System.out.println("There are no tasks that are 'in progress'.");
+                    if (taskList.get(i).getTaskState().equalsIgnoreCase("todo")) {
+                        foundTodoTasks = true;
+                        System.out.println(taskList.get(i));
                     }
+                }
+                if (!foundTodoTasks) {
+                    System.out.println("There are no tasks marked as 'todo'.");
                 }
 
             } else if (line.isEmpty()) {
