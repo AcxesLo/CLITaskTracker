@@ -1,22 +1,26 @@
 package com.acxes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.io.InputStream;
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 public class Main {
     private static String line;
     private static String[] parts;
-    private static List<String> rest = new ArrayList<>();
+    private static String taskText;
     private static List<Task> taskList = new ArrayList<>();
-    private static String deleteTask;
+    private static List<String> taskTextList = new ArrayList<>();
     private static int taskID = 0;
 
     //TODO
-    /*
+    // adding function kinda done, needs to be added into the class --done
 
-     */
+    // git comment
+    // moved if statement into one unit to avoid wrong "wrong comment" comments
 
     // TEST-QUOTES
     // task-cli add "Buy groceries"
@@ -36,26 +40,10 @@ public class Main {
             System.out.print("> ");
             line = scanner.nextLine();
 
-            if (line.isEmpty()) {
-                continue;
-            }
-            if (line.equalsIgnoreCase("task-cli list")) {
-                for (Task taskLists : taskList) {
-                    System.out.println(taskLists);
-                }
-            }
-            if (line.equalsIgnoreCase("exit")) {
-                break;
-            }
-            if (!(line.equalsIgnoreCase("exit") ||
-                    line.equalsIgnoreCase("ls"))) {
-                Task.incrementTask();
-            }
-
             parts = line.split("\\s+");
 
             if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("add")) {
-                String taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
+                taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
                 taskText = taskText.replaceAll("^\"|\"$", "");
 
                 System.out.println("Items added to the list:\n"
@@ -63,43 +51,50 @@ public class Main {
                         + taskText
                         + ">");
 
-            } else {
-                System.out.println("Wrong command.");
-                continue;
-            }
+                taskTextList.add(taskText);
+                Task.incrementTask();
+                int taskIDCount = taskID += 1;
+                taskList.add(new Task(taskTextList, true, taskIDCount));
 
+                System.out.println("taskList size: " + taskList.size());
 
-            int taskIDCount = taskID += 1;
-            taskList.add(new Task(rest, true, taskIDCount));
-//            System.out.println("##log_output: " + "'" + line + "'\n" +
-//                    "##task_count: " + "'" + Task.getTaskCount() + "'");
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("update")) {
+                // here i wanna update the previously added task, and it should be selected by the taskID from index 2
+                int targetID = Integer.parseInt(parts[2]);
+                boolean found = false;
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getTaskID() == targetID) {
+                        taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
+                        taskText = taskText.replaceAll("^\"|\"$", "");
 
-        }
+                        taskList.get(i).setTaskName(Collections.singletonList(taskText));
 
-        while (true) {
-            System.out.println("<Delete a task>");
-            deleteTask = scanner.nextLine();
+                        System.out.println("Items updated on taskID " + targetID + " to the list:\n"
+                                + "<"
+                                + taskText
+                                + ">");
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    System.out.println("Task with the ID " + targetID + " wasn't found.");
+                }
 
-            if (deleteTask.equalsIgnoreCase("exit")) {
-                break;
-            }
-            if (deleteTask.equalsIgnoreCase("ls")) {
+            } else if (line.equalsIgnoreCase("task-cli list")) {
+                System.out.println("TaskCount: " + Task.taskCount);
                 for (Task taskLists : taskList) {
                     System.out.println(taskLists);
                 }
-            }
 
-            try {
-                int idToDelete = Integer.parseInt(deleteTask.trim());
-                boolean removed = taskList.removeIf(t -> t.getTaskID() == idToDelete);
+            } else if (line.isEmpty()) {
+                continue;
 
-                if (removed) {
-                    System.out.println("Task " + idToDelete + " deleted successfully.");
-                } else {
-                    System.out.println("No task found with ID " + idToDelete);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid task ID or 'exit' to quit the process.\n");
+            } else if (line.equalsIgnoreCase("exit")) {
+                break;
+
+            } else {
+                System.out.println("Wrong command.");
+                continue;
             }
         }
     }

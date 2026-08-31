@@ -3,7 +3,7 @@ package com.acxes;
 import java.util.List;
 
 public class Task {
-    private static int taskCount;
+    public static int taskCount;
     private int taskID;
     private List<String> taskName;
     private Boolean inProgress;
@@ -29,15 +29,11 @@ public class Task {
                 '}';
     }
 
-    public static int getTaskCount() {
-        return taskCount;
+    public void setTaskName(List<String> taskName) {
+        this.taskName = taskName;
     }
 
     public int getTaskID() {
         return taskID;
-    }
-
-    public List<String> getTaskName() {
-        return taskName;
     }
 }
