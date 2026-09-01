@@ -20,7 +20,6 @@ public class Task {
         this.taskState = taskState;
         this.taskID = taskID;
         this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
 
         addTask(this.taskName);
     }
@@ -40,13 +39,19 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + taskList + '\'' +
-                ", taskState=" + taskState + '\'' +
+                "createdAt=" + createdAt +
+                ", taskState='" + taskState + '\'' +
+                ", taskList=" + taskList +
+                ", taskName='" + taskName + '\'' +
                 ", taskID=" + taskID +
                 '}';
     }
 
-    public void taskState(String state) {
+    public void updateDateTime() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public void setTaskState(String state) {
         this.taskState = state;
     }
 

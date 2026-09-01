@@ -1,6 +1,5 @@
 package com.acxes;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class Main {
@@ -67,11 +66,13 @@ public class Main {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
+                        taskList.get(i).updateDateTime();
                         taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
                         taskText = taskText.replaceAll("^\"|\"$", "");
 
                         taskList.get(i).setTaskList(Collections.singletonList(taskText));
                         foundTarget = true;
+
 
                         System.out.println("Items updated on taskID " + targetID + " to the list:\n"
                                 + "<"
@@ -101,7 +102,7 @@ public class Main {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
-                        taskList.get(i).taskState("in-progress");
+                        taskList.get(i).setTaskState("in-progress");
                         foundTarget = true;
                         System.out.println("Task with TaskID" + targetID + " was updated to 'in-progress'.");
                     }
@@ -114,7 +115,7 @@ public class Main {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
-                        taskList.get(i).taskState("done");
+                        taskList.get(i).setTaskState("done");
                         foundTarget = true;
                         System.out.println("Task with TaskID " + targetID + " was updated to 'done'.");
                     }
@@ -127,7 +128,7 @@ public class Main {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
-                        taskList.get(i).taskState("todo");
+                        taskList.get(i).setTaskState("todo");
                         foundTarget = true;
                         System.out.println("Task with TaskID " + targetID + " was updated to 'todo'.");
                     }
