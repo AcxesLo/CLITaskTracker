@@ -1,5 +1,6 @@
 package com.acxes;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Main {
@@ -11,10 +12,7 @@ public class Main {
     private static boolean foundTarget = false;
 
     //TODO
-    // adding function kinda done, needs to be added into the class --done
-
-    // git comment
-    // moved if statement into one unit to avoid wrong "wrong comment" comments
+    // ~~
 
     // TEST-QUOTES
     // task-cli add "Buy groceries"
@@ -35,6 +33,20 @@ public class Main {
             line = scanner.nextLine();
 
             parts = line.split("\\s+");
+
+            if (line.equalsIgnoreCase("help")) {
+                System.out.println("<commands>\n"
+                        + "task-cli add\n"
+                        + "task-cli update [id]\n"
+                        + "task-cli delete [id]\n"
+                        + "task-cli mark-todo [id]\n"
+                        + "task-cli mark-in-progress [id]\n"
+                        + "task-cli mark-done [id]\n"
+                        + "task-cli list\n"
+                        + "task-cli list todo\n"
+                        + "task-cli list in-progress\n"
+                        + "task-cli list done\n");
+            }
 
             if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("add")) {
                 taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
@@ -91,14 +103,14 @@ public class Main {
                     if (taskList.get(i).getTaskID() == targetID) {
                         taskList.get(i).taskState("in-progress");
                         foundTarget = true;
-                        System.out.println("Task with TaskID" + targetID + " was updated to 'in progress'.");
+                        System.out.println("Task with TaskID" + targetID + " was updated to 'in-progress'.");
                     }
                 }
                 if (!foundTarget) {
                     System.out.println("Task with the ID " + targetID + " does not exist.(mark-in-progress)");
                 }
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("done")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-done")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
@@ -108,10 +120,10 @@ public class Main {
                     }
                 }
                 if (!foundTarget) {
-                    System.out.println("Task with the ID " + targetID + " wasn't found.");
+                    System.out.println("Task with the ID " + targetID + " does not exist.(done)");
                 }
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("todo")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-todo")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
@@ -140,6 +152,18 @@ public class Main {
                 }
                 if (!foundTodoTasks) {
                     System.out.println("There are no tasks marked as 'todo'.");
+                }
+
+            } else if (line.equalsIgnoreCase("task-cli list in-progress")) {
+                boolean foundTodoTasks = false;
+                for (int i = 0; i < taskList.size(); i++) {
+                    if (taskList.get(i).getTaskState().equalsIgnoreCase("in-progress")) {
+                        foundTodoTasks = true;
+                        System.out.println(taskList.get(i));
+                    }
+                }
+                if (!foundTodoTasks) {
+                    System.out.println("There are no tasks marked as 'in-progress'.");
                 }
 
             } else if (line.isEmpty()) {

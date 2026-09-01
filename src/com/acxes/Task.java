@@ -1,5 +1,6 @@
 package com.acxes;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,8 @@ public class Task {
     private String taskName;
     private List<String> taskList = new ArrayList<>();
     private String taskState;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Task(String taskName,
                 String taskState,
@@ -16,6 +19,8 @@ public class Task {
         this.taskName = taskName;
         this.taskState = taskState;
         this.taskID = taskID;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
 
         addTask(this.taskName);
     }
