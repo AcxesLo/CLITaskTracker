@@ -7,10 +7,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class JsonFile {
 
@@ -37,7 +33,7 @@ public class JsonFile {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
         try (FileWriter writer = new FileWriter(file, false)) {
-            gson.toJson(Main.getTaskList(), writer);
+            gson.toJson(TaskLogic.getTaskList(), writer);
             System.out.println("Data written to file.");
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
