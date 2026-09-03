@@ -1,0 +1,47 @@
+package com.acxes;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class JsonFile {
+
+    public static void writeJsonFile() {
+        File file = new File("C:\\Users\\steve\\Desktop\\testfile.json");
+
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+            } else {
+                System.out.println("File "
+                        + "'"
+                        + file.getName()
+                        + "'"
+                        + " already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the file.");
+            e.printStackTrace();
+        }
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
+        try (FileWriter writer = new FileWriter(file, false)) {
+            gson.toJson(Main.getTaskList(), writer);
+            System.out.println("Data written to file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
+    }
+}

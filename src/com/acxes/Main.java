@@ -1,6 +1,7 @@
 package com.acxes;
 
 import java.util.*;
+import com.google.gson.Gson;
 
 public class Main {
     private static String line;
@@ -51,27 +52,25 @@ public class Main {
                 taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
                 taskText = taskText.replaceAll("^\"|\"$", "");
 
-                System.out.println("Items added to the list:\n"
-                        + "<"
-                        + taskText
-                        + ">");
 
                 Task.incrementTask();
                 taskIDCount++;
                 taskList.add(new Task(taskText, "todo", taskIDCount));
 
-                System.out.println("taskList size: " + taskList.size());
+                System.out.println("Task added successfully (ID: " + taskIDCount + " )");
+//                System.out.println("taskList size: " + taskList.size());
 
             } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("update")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
-                        taskList.get(i).updateDateTime();
+                        taskList.get(i).setUpdateDateTime();
                         taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
                         taskText = taskText.replaceAll("^\"|\"$", "");
 
                         taskList.get(i).setTaskList(Collections.singletonList(taskText));
                         foundTarget = true;
+                        taskList.get(i).setUpdateDateTime();
 
 
                         System.out.println("Items updated on taskID " + targetID + " to the list:\n"
@@ -178,6 +177,12 @@ public class Main {
                 continue;
             }
         }
+
+        JsonFile.writeJsonFile();
+    }
+
+    public static List<Task> getTaskList() {
+        return taskList;
     }
 }
 

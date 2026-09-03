@@ -8,7 +8,7 @@ public class Task {
     public static int taskCount;
     private int taskID;
     private String taskName;
-    private List<String> taskList = new ArrayList<>();
+    public static List<String> taskList = new ArrayList<>();
     private String taskState;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -20,6 +20,7 @@ public class Task {
         this.taskState = taskState;
         this.taskID = taskID;
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
 
         addTask(this.taskName);
     }
@@ -39,16 +40,17 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "createdAt=" + createdAt +
-                ", taskState='" + taskState + '\'' +
-                ", taskList=" + taskList +
+                "taskID=" + taskID +
                 ", taskName='" + taskName + '\'' +
-                ", taskID=" + taskID +
+                ", taskList=" + taskList +
+                ", taskState='" + taskState + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 
-    public void updateDateTime() {
-        this.createdAt = LocalDateTime.now();
+    public void setUpdateDateTime() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void setTaskState(String state) {
@@ -61,6 +63,10 @@ public class Task {
 
     public void setTaskList(List<String> taskList) {
         this.taskList = taskList;
+    }
+    
+    public static List<String> getTaskList() {
+        return taskList;
     }
 
     public int getTaskID() {
