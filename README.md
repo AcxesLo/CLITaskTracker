@@ -47,6 +47,6 @@ task-cli list
 # Listing tasks by status
 task-cli list todo
 task-cli list in-progress
-task-cli list list done
+task-cli list done
 ````
 
