@@ -32,6 +32,7 @@ public class JsonFile {
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
+
         try (FileWriter writer = new FileWriter(file, false)) {
             gson.toJson(TaskLogic.getTaskList(), writer);
             System.out.println("Data written to file.");

@@ -20,7 +20,7 @@ public class TaskLogic {
 
             parts = line.split("\\s+");
 
-            if (line.equalsIgnoreCase("help")) {
+            if (line.equalsIgnoreCase("task-cli --help") ) {
                 System.out.println("<commands>\n"
                         + "task-cli add\n"
                         + "task-cli update [id]\n"
@@ -34,19 +34,21 @@ public class TaskLogic {
                         + "task-cli list done\n");
             }
 
-            if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("add")) {
+            if (parts[0].equalsIgnoreCase("task-cli")
+                    && parts[1].equalsIgnoreCase("add")) {
                 taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
                 taskText = taskText.replaceAll("^\"|\"$", "");
-
 
                 Task.incrementTask();
                 taskIDCount++;
                 taskList.add(new Task(taskText, "todo", taskIDCount));
 
-                System.out.println("Task added successfully (ID: " + taskIDCount + " )");
-//                System.out.println("taskList size: " + taskList.size());
+                System.out.println("Task added successfully (ID: "
+                        + taskIDCount
+                        + " )");
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("update")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli")
+                    && parts[1].equalsIgnoreCase("update")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
@@ -58,7 +60,6 @@ public class TaskLogic {
                         foundTarget = true;
                         taskList.get(i).setUpdateDateTime();
 
-
                         System.out.println("Items updated on taskID " + targetID + " to the list:\n"
                                 + "<"
                                 + taskText
@@ -69,7 +70,8 @@ public class TaskLogic {
                     System.out.println("Task with the ID " + targetID + " wasn't found.");
                 }
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("delete")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli")
+                    && parts[1].equalsIgnoreCase("delete")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
@@ -83,20 +85,26 @@ public class TaskLogic {
                     System.out.println("Task with the ID " + targetID + " does not exist.(delete)");
                 }
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-in-progress")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli")
+                    && parts[1].equalsIgnoreCase("mark-in-progress")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
                         taskList.get(i).setTaskState("in-progress");
                         foundTarget = true;
-                        System.out.println("Task with TaskID" + targetID + " was updated to 'in-progress'.");
+                        System.out.println("Task with TaskID"
+                                + targetID
+                                + " was updated to 'in-progress'.");
                     }
                 }
                 if (!foundTarget) {
-                    System.out.println("Task with the ID " + targetID + " does not exist.(mark-in-progress)");
+                    System.out.println("Task with the ID "
+                            + targetID
+                            + " does not exist.(mark-in-progress)");
                 }
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-done")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli")
+                    && parts[1].equalsIgnoreCase("mark-done")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
@@ -109,7 +117,8 @@ public class TaskLogic {
                     System.out.println("Task with the ID " + targetID + " does not exist.(done)");
                 }
 
-            } else if (parts[0].equalsIgnoreCase("task-cli") && parts[1].equalsIgnoreCase("mark-todo")) {
+            } else if (parts[0].equalsIgnoreCase("task-cli")
+                    && parts[1].equalsIgnoreCase("mark-todo")) {
                 int targetID = Integer.parseInt(parts[2]);
                 for (int i = 0; i < taskList.size(); i++) {
                     if (taskList.get(i).getTaskID() == targetID) {
