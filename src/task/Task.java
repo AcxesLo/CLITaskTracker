@@ -42,7 +42,6 @@ public class Task {
         return "Task{" +
                 "taskID=" + taskID +
                 ", taskName='" + taskName + '\'' +
-                ", taskList=" + taskList +
                 ", taskState='" + taskState + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
@@ -55,6 +54,10 @@ public class Task {
 
     public void setTaskState(String state) {
         this.taskState = state;
+    }
+
+    public void setTaskName(String name) {
+        this.taskName = name;
     }
 
     public String getTaskState() {
