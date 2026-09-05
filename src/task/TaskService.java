@@ -23,13 +23,12 @@ public class TaskService {
     }
 
     public void addTask(String[] parts, List<Task> taskList) {
-
         taskText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
         taskText = taskText.replaceAll("^\"|\"$", "");
 
-        Task.incrementTask();
         taskIDCount++;
         taskList.add(new Task(taskText, "todo", taskIDCount));
+        Task.incrementTask();
 
         System.out.println("Task added successfully (ID: "
                 + taskIDCount
@@ -176,6 +175,4 @@ public class TaskService {
             System.out.println("There are no tasks marked as 'done'.");
         }
     }
-
-
 }

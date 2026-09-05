@@ -26,30 +26,6 @@ public class TaskLogic {
             } else if (line.equalsIgnoreCase("task-cli --help")) {
                 taskService.listCommands();
 
-            } else if (parts[0].equalsIgnoreCase("task-cli")
-                    && parts[1].equalsIgnoreCase("add")) {
-                taskService.addTask(parts, taskList);
-
-            } else if (parts[0].equalsIgnoreCase("task-cli")
-                    && parts[1].equalsIgnoreCase("update")) {
-                taskService.updateTask(parts, taskList, foundTarget);
-
-            } else if (parts[0].equalsIgnoreCase("task-cli")
-                    && parts[1].equalsIgnoreCase("delete")) {
-                taskService.deleteTask(parts, taskList, foundTarget);
-
-            } else if (parts[0].equalsIgnoreCase("task-cli")
-                    && parts[1].equalsIgnoreCase("mark-todo")) {
-                taskService.markTodo(parts, taskList, foundTarget);
-
-            } else if (parts[0].equalsIgnoreCase("task-cli")
-                    && parts[1].equalsIgnoreCase("mark-in-progress")) {
-                taskService.markInProgress(parts, taskList, foundTarget);
-
-            } else if (parts[0].equalsIgnoreCase("task-cli")
-                    && parts[1].equalsIgnoreCase("mark-done")) {
-                taskService.markDone(parts, taskList, foundTarget);
-
             } else if (line.equalsIgnoreCase("task-cli list")) {
                 taskService.listTasks(taskList);
 
@@ -61,6 +37,28 @@ public class TaskLogic {
 
             } else if (line.equalsIgnoreCase("task-cli list done")) {
                 taskService.listTasksDone(taskList);
+
+            } else if (parts[0].equalsIgnoreCase("task-cli")) {
+                switch (parts[1].toLowerCase()) {
+                    case "add":
+                        taskService.addTask(parts, taskList);
+                        break;
+                    case "update":
+                        taskService.updateTask(parts, taskList, foundTarget);
+                        break;
+                    case "delete":
+                        taskService.deleteTask(parts, taskList, foundTarget);
+                        break;
+                    case "mark-todo":
+                        taskService.markTodo(parts, taskList, foundTarget);
+                        break;
+                    case "mark-in-progress":
+                        taskService.markInProgress(parts, taskList, foundTarget);
+                        break;
+                    case "mark-done":
+                        taskService.markDone(parts, taskList, foundTarget);
+                        break;
+                }
 
             } else {
                 System.out.println("Wrong command.");
