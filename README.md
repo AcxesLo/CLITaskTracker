@@ -19,7 +19,7 @@ cd CLITaskTracker
 ````
 **Run the application:**
 ````
-task-cli <command> [arguments]
+task-cli <command> {arguments}
 ````
 
 ## Usage
