@@ -3,7 +3,7 @@ package json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import adapter.LocalDateTimeAdapter;
-import task.TaskLogic;
+import task.TaskService;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -37,7 +37,7 @@ public class JsonFile {
                 .create();
 
         try (FileWriter writer = new FileWriter(file, false)) {
-            gson.toJson(TaskLogic.getTaskList(), writer);
+            gson.toJson(TaskService.getTaskList(), writer);
             System.out.println("Data written to file.");
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");

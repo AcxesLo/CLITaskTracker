@@ -1,7 +1,7 @@
 package main;
 
 import json.JsonFile;
-import task.TaskLogic;
+import task.TaskService;
 
 public class Main {
 
@@ -12,7 +12,7 @@ public class Main {
     // from if to switch statements
 
     static void main(String[] args) {
-        TaskLogic.taskCLILogic();
+        TaskService.taskCLILogic();
         JsonFile.writeJsonFile();
     }
 }
