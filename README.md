@@ -1,7 +1,6 @@
 # CLI Task Tracker
 CLI application that takes commands to add, update and delete tasks. Tasks will be saved as a .json file.
 
-
 ## Features 
 - **Add Task:** Adds a new task with a description, status, creation/update date and an id.
 - **Update Task:** Updates the created tasks.
@@ -49,6 +48,9 @@ task-cli list
 task-cli list todo
 task-cli list in-progress
 task-cli list done
+
+# Exit application
+exit
 ````
 ## Credits
 Project idea from: https://roadmap.sh/projects/task-tracker
