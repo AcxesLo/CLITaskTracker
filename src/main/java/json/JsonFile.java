@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 public class JsonFile {
 
     public static void writeJsonFile() {
-        String user = System.getProperty("user.name");
-        File file = new File("C:\\Users\\" + user + "\\Desktop\\tasks.json");
+//        String user = System.getProperty("user.name");
+//        "C:\\Users\\" + user + "\\Desktop\\tasks.json"
+        File file = new File("tasks.json");
 
         try {
             if (file.createNewFile()) {
