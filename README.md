@@ -13,8 +13,8 @@ CLI application that takes commands to add, update and delete tasks. Tasks will 
 **Clone the repository:**
 ````
 bash
-git clone https://github.com/AcxesLo/CLITaskTracker.git
-cd CLITaskTracker
+git clone https://github.com/AcxesLo/cli-task-tracker.git
+cd cli-task-tracker
 ````
 **Run the application:**
 ````
