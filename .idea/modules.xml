@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CLITaskTracker.iml" filepath="$PROJECT_DIR$/CLITaskTracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cli-task-tracker.iml" filepath="$PROJECT_DIR$/cli-task-tracker.iml" />
     </modules>
   </component>
 </project>
