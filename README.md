@@ -49,7 +49,7 @@ task-cli list todo
 task-cli list in-progress
 task-cli list done
 
-# Writing the .json file
+# Create .json file
 write json
 
 # Exit application
