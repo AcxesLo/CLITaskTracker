@@ -1,5 +1,7 @@
 package task;
 
+import json.JsonFile;
+
 import java.util.*;
 
 public class TaskService {
@@ -38,6 +40,9 @@ public class TaskService {
             } else if (line.equalsIgnoreCase("task-cli list done")) {
                 taskService.listTasksDone(taskList);
 
+            } else if (line.equalsIgnoreCase("write json")) {
+                JsonFile.writeJsonFile();
+
             } else if (parts[0].equalsIgnoreCase("task-cli")) {
                 switch (parts[1].toLowerCase()) {
                     case "add":
@@ -59,14 +64,15 @@ public class TaskService {
                         taskService.markDone(parts, taskList, foundTarget);
                         break;
                 }
-
             } else {
                 System.out.println("Wrong command.");
             }
         }
+
     }
 
     public static List<Task> getTaskList() {
         return taskList;
     }
+
 }

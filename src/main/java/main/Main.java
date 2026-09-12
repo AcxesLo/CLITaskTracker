@@ -12,8 +12,11 @@ public class Main {
     // from if to switch statements
 
     static void main(String[] args) {
+
+        // <test-command>
+        // task-cli add "groceries"
+
         TaskService.taskCLILogic();
-        JsonFile.writeJsonFile();
     }
 }
 

@@ -1,5 +1,7 @@
 package task;
 
+import enums.TaskStatus;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +21,9 @@ public class TaskLogic {
                 + "task-cli list\n"
                 + "task-cli list todo\n"
                 + "task-cli list in-progress\n"
-                + "task-cli list done\n");
+                + "task-cli list done\n"
+                + "write json"
+                + "exit");
     }
 
     public void addTask(String[] parts, List<Task> taskList) {
@@ -27,7 +31,7 @@ public class TaskLogic {
         taskText = taskText.replaceAll("^\"|\"$", "");
 
         taskIDCount++;
-        taskList.add(new Task(taskText, "todo", taskIDCount));
+        taskList.add(new Task(taskText, TaskStatus.TODO.status, taskIDCount));
         Task.incrementTask();
 
         System.out.println("Task added successfully (ID: "
@@ -35,99 +39,134 @@ public class TaskLogic {
                 + " )");
     }
 
-    public void updateTask(String[] parts, List<Task> taskList, Boolean foundTarget ) {
-        int targetID = Integer.parseInt(parts[2]);
+    public void updateTask(String[] parts, List<Task> taskList, Boolean foundTarget) {
+        try {
+            int targetID = Integer.parseInt(parts[2]);
 
-        for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i).getTaskID() == targetID) {
+            for (int i = 0; i < taskList.size(); i++) {
+                if (taskList.get(i).getTaskID() == targetID) {
 
-                taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
-                taskText = taskText.replaceAll("^\"|\"$", "");
+                    taskText = String.join(" ", Arrays.copyOfRange(parts, 3, parts.length));
+                    taskText = taskText.replaceAll("^\"|\"$", "");
 
-                taskList.get(i).setTaskList(Collections.singletonList(taskText));
-                taskList.get(i).setUpdateDateTime();
-                taskList.get(i).setTaskName(taskText);
-                foundTarget = true;
+                    taskList.get(i).setTaskList(Collections.singletonList(taskText));
+                    taskList.get(i).setUpdateDateTime();
+                    taskList.get(i).setTaskName(taskText);
+                    foundTarget = true;
 
-                System.out.println("Items updated on taskID " + targetID + " to the list:\n"
-                        + "<"
-                        + taskText
-                        + ">");
+                    System.out.println("Items updated on taskID " + targetID + " to the list:\n"
+                            + "<"
+                            + taskText
+                            + ">");
+                }
             }
-        }
-        if (!foundTarget) {
-            System.out.println("Task with the ID " + targetID + " wasn't found.");
+            if (!foundTarget) {
+                System.out.println("Task with the ID " + targetID + " wasn't found.");
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("##invalid_input \n" +
+                    "<task-id is missing>");
         }
     }
 
     public void deleteTask(String[] parts, List<Task> taskList, Boolean foundTarget) {
-        int targetID = Integer.parseInt(parts[2]);
+        try {
+            int targetID = Integer.parseInt(parts[2]);
 
-        for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i).getTaskID() == targetID) {
-                taskList.remove(taskList.get(i));
-                foundTarget = true;
-                Task.decrementTask();
-                System.out.println("Task removed with TaskID " + targetID + " from the list.");
+            for (int i = 0; i < taskList.size(); i++) {
+                if (taskList.get(i).getTaskID() == targetID) {
+                    taskList.remove(taskList.get(i));
+                    foundTarget = true;
+                    Task.decrementTask();
+                    System.out.println("Task removed with TaskID " + targetID + " from the list.");
+                }
             }
+            if (!foundTarget) {
+                System.out.println("Task with the ID " + targetID + " does not exist.");
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("##invalid_input \n" +
+                    "<task-id is missing>");
         }
-        if (!foundTarget) {
-            System.out.println("Task with the ID " + targetID + " does not exist.(delete)");
-        }
+
     }
 
     public void markTodo(String[] parts, List<Task> taskList, Boolean foundTarget) {
-        int targetID = Integer.parseInt(parts[2]);
-        for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i).getTaskID() == targetID) {
-                taskList.get(i).setTaskState("todo");
-                foundTarget = true;
-                System.out.println("Task with TaskID"
-                        + targetID
-                        + " was updated to 'todo'.");
+        try {
+            int targetID = Integer.parseInt(parts[2]);
+
+            for (int i = 0; i < taskList.size(); i++) {
+                if (taskList.get(i).getTaskID() == targetID) {
+                    taskList.get(i).setTaskState(TaskStatus.TODO.status);
+                    foundTarget = true;
+                    System.out.println("Task with TaskID"
+                            + targetID
+                            + " was updated to 'todo'.");
+                }
             }
+            if (!foundTarget) {
+                System.out.println("Task with the ID "
+                        + targetID
+                        + " does not exist.");
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("##invalid_input \n" +
+                    "<task-id is missing>");
         }
-        if (!foundTarget) {
-            System.out.println("Task with the ID "
-                    + targetID
-                    + " does not exist.");
-        }
+
     }
 
     public void markInProgress(String[] parts, List<Task> taskList, Boolean foundTarget) {
-        int targetID = Integer.parseInt(parts[2]);
-        for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i).getTaskID() == targetID) {
-                taskList.get(i).setTaskState("in-progress");
-                foundTarget = true;
-                System.out.println("Task with TaskID"
-                        + targetID
-                        + " was updated to 'in-progress'.");
+        try {
+            int targetID = Integer.parseInt(parts[2]);
+            for (int i = 0; i < taskList.size(); i++) {
+                if (taskList.get(i).getTaskID() == targetID) {
+                    taskList.get(i).setTaskState(TaskStatus.IN_PROGRESS.status);
+                    foundTarget = true;
+                    System.out.println("Task with TaskID"
+                            + targetID
+                            + " was updated to 'in-progress'.");
+                }
             }
+            if (!foundTarget) {
+                System.out.println("Task with the ID "
+                        + targetID
+                        + " does not exist.");
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("##invalid_input \n" +
+                    "<task-id is missing>");
         }
-        if (!foundTarget) {
-            System.out.println("Task with the ID "
-                    + targetID
-                    + " does not exist.");
-        }
+
     }
 
     public void markDone(String[] parts, List<Task> taskList, Boolean foundTarget) {
-        int targetID = Integer.parseInt(parts[2]);
-        for (int i = 0; i < taskList.size(); i++) {
-            if (taskList.get(i).getTaskID() == targetID) {
-                taskList.get(i).setTaskState("done");
-                foundTarget = true;
-                System.out.println("Task with TaskID"
-                        + targetID
-                        + " was updated to 'done'.");
+        try {
+            int targetID = Integer.parseInt(parts[2]);
+            for (int i = 0; i < taskList.size(); i++) {
+                if (taskList.get(i).getTaskID() == targetID) {
+                    taskList.get(i).setTaskState(TaskStatus.DONE.status);
+                    foundTarget = true;
+                    System.out.println("Task with TaskID"
+                            + targetID
+                            + " was updated to 'done'.");
+                }
             }
+            if (!foundTarget) {
+                System.out.println("Task with the ID "
+                        + targetID
+                        + " does not exist.");
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("##invalid_input \n" +
+                    "<task-id is missing>");
         }
-        if (!foundTarget) {
-            System.out.println("Task with the ID "
-                    + targetID
-                    + " does not exist.");
-        }
+
     }
 
     public void listTasks(List<Task> taskList) {
