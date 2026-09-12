@@ -27,19 +27,19 @@ task-cli <command> {arguments}
 task-cli --help
 
 # Adding a new task
-task-cli add "description"
+task-cli add "{argument}"
 
 # Updating a task
-task-cli update [id] "updated-description"
+task-cli update {id} "{argument}"
 
 # Deleting a task
-task-cli delete [id]
+task-cli delete {id}
 
 # Marking a task as in progress
-task-cli mark-in-progress [id]
+task-cli mark-in-progress {id}
 
 # Marking a task as done
-task-cli mark-done [id]
+task-cli mark-done {id}
 
 # Listing all tasks
 task-cli list
